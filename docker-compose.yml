@@ -28,7 +28,7 @@ services:
       - NODE_ENV=production
       - PORT=4100
     networks:
-      - dokploy-network
+      - pa11y-network
     restart: always
 
 networks:
