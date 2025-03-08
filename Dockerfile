@@ -29,7 +29,7 @@ RUN mkdir -p config && echo '{\
     "readonly": false,\
     "siteMessage": "",\
     "webservice": {\
-        "database": "mongodb://localhost:27017/pa11y-webservice",\
+        "database": "mongodb://Default mongo:PAmongoDB11Y@pa11y-pa11y-mongodb:27017/pa11y-webservice",\
         "host": "0.0.0.0",\
         "port": 3000,\
         "cron": "0 30 0 * * *"\
