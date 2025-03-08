@@ -21,6 +21,16 @@ services:
     build: .
     ports:
       - "4100:4100"
+    pa11y-dashboard:
+    build: .
+    ports:
+      - "4100:4100"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pa11y.rule=Host(`pa11y-dashboard.inet-solutions.at`)"
+      - "traefik.http.services.pa11y.loadbalancer.server.port=4100"
+      - "traefik.http.routers.pa11y.entrypoints=websecure"
+      - "traefik.http.routers.pa11y.tls.certresolver=myresolver"
     depends_on:
       mongodb:
         condition: service_healthy
