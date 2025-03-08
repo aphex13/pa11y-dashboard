@@ -28,21 +28,21 @@ echo "✅ MongoDB ist jetzt verfügbar!"\n\
 
 # Konfigurationsdatei mit der internen MongoDB-URL
 RUN mkdir -p config && echo '{\
-    "port": 4000,\
+    "port": 4100,\
     "noindex": false,\
     "readonly": false,\
     "siteMessage": "MongoDB mit Authentifizierung",\
     "webservice": {\
         "database": "mongodb://mongo:PAmongodb11Y@pa11y-pa11y-mongodb-zpdssw:27017/admin",\
         "host": "0.0.0.0",\
-        "port": 3000,\
+        "port": 3100,\
         "cron": "0 30 0 * * *"\
     }\
 }' > config/production.json
 
 # Webservice-Konfiguration
 RUN mkdir -p node_modules/pa11y-webservice/config && echo '{\
-    "port": 3000,\
+    "port": 3100,\
     "host": "0.0.0.0",\
     "database": "mmongodb://mongo:PAmongodb11Y@pa11y-pa11y-mongodb-zpdssw:27017/admin",\
     "cron": "0 30 0 * * *"\
@@ -68,7 +68,7 @@ NODE_ENV=production node index.js\n\
 
 # Ports
 EXPOSE 4100
-EXPOSE 3000
+EXPOSE 3100
 
 # Gesundheitscheck mit längerer Wartezeit
 HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=5 \
