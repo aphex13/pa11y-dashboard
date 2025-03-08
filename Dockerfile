@@ -1,14 +1,14 @@
-# Basis-Image mit Node.js 18 (anstatt 16)
+# Basis-Image mit Node.js 18
 FROM node:18
 
-# MongoDB installieren
-RUN apt-get update && apt-get install -y gnupg wget
+# Installiere notwendige Pakete für MongoDB
+RUN apt-get update && apt-get install -y gnupg curl
 
-# MongoDB GPG-Schlüssel hinzufügen
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
+# Füge den MongoDB GPG-Schlüssel hinzu
+RUN curl -fsSL https://pgp.mongodb.com/server-6.0.asc | tee /usr/share/keyrings/mongodb-server-6.0.gpg > /dev/null
 
-# MongoDB-Repository hinzufügen
-RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+# Füge das richtige MongoDB-Repository für Debian Bookworm hinzu
+RUN echo "deb [signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg] https://repo.mongodb.org/apt/debian bookworm/mongodb-org/6.0 main" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 
 # Paketliste aktualisieren und MongoDB installieren
 RUN apt-get update && apt-get install -y mongodb-org
