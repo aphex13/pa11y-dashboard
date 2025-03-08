@@ -1,38 +1,54 @@
-# Basis-Image mit Node.js 18
+# Use Node.js as base image
 FROM node:18
 
-# Arbeitsverzeichnis setzen
+# Install MongoDB from Debian repositories (simpler approach)
+RUN apt-get update && \
+    apt-get install -y mongodb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create MongoDB data directory
+RUN mkdir -p /data/db
+
+# Set working directory
 WORKDIR /app
 
-# Abhängigkeiten installieren
-COPY package.json package-lock.json ./
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Kopiere restlichen Code
+# Copy application code
 COPY . .
 
-# Konfigurationsdatei erstellen
-RUN echo '{\n\
-  "port": 4000,\n\
-  "noindex": true,\n\
-  "readonly": false,\n\
-  "siteMessage": "",\n\
-  "webservice": {\n\
-    "database": "mongodb://mongodb:27017/pa11y-webservice",\n\
-    "host": "0.0.0.0",\n\
-    "port": 3000,\n\
-    "cron": "0 30 0 * * *"\n\
-  }\n\
+# Create a specific config for production
+RUN mkdir -p config && echo '{\
+    "port": 4000,\
+    "noindex": false,\
+    "readonly": false,\
+    "siteMessage": "",\
+    "webservice": {\
+        "database": "mongodb://localhost:27017/pa11y-webservice",\
+        "host": "0.0.0.0",\
+        "port": 3000,\
+        "cron": "0 30 0 * * *"\
+    }\
 }' > config/production.json
 
-# Standardport für das Dashboard
-ENV PORT=4000
-ENV NODE_ENV=production
+# Create startup script
+RUN echo '#!/bin/bash\n\
+# Start MongoDB\n\
+mkdir -p /data/db\n\
+mongod --fork --logpath /var/log/mongodb.log\n\
+# Wait for MongoDB to start\n\
+sleep 5\n\
+# Start Pa11y Dashboard\n\
+NODE_ENV=production npm start\n\
+' > /app/start.sh && chmod +x /app/start.sh
+
+# Expose Pa11y Dashboard port
 EXPOSE 4000
 
-# Healthcheck hinzufügen
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:4000/ || exit 1
-
-# Starte die Node.js Anwendung
-CMD ["npm", "start"]
+# Run startup script
+CMD ["/app/start.sh"]
