@@ -29,7 +29,7 @@ RUN mkdir -p config && echo '{\
     "readonly": false,\
     "siteMessage": "MongoDB mit Authentifizierung",\
     "webservice": {\
-        "database": "mongodb://mongo:PAmongodb11Y@pa11y-pa11y-mongodb-zpdssw:27017/pa11y-webservice?authSource=admin",\
+        "database": "mongodb://mongo:PAmongodb11@pa11y-pa11y-mongodb-zpdssw:27017/admin",\
         "host": "0.0.0.0",\
         "port": 3000,\
         "cron": "0 30 0 * * *"\
@@ -40,7 +40,7 @@ RUN mkdir -p config && echo '{\
 RUN mkdir -p node_modules/pa11y-webservice/config && echo '{\
     "port": 3000,\
     "host": "0.0.0.0",\
-    "database": "mongodb://mongo:PAmongodb11Y@pa11y-pa11y-mongodb-zpdssw:27017/pa11y-webservice?authSource=admin",\
+    "database": "mmongodb://mongo:PAmongodb11@pa11y-pa11y-mongodb-zpdssw:27017/admin",\
     "cron": "0 30 0 * * *"\
 }' > node_modules/pa11y-webservice/config/production.json
 
