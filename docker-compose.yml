@@ -39,6 +39,7 @@ services:
       - PORT=4100
     networks:
       - pa11y-network
+        external: ture
     restart: always
 
 networks:
