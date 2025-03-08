@@ -67,7 +67,7 @@ NODE_ENV=production node index.js\n\
 ' > /app/start.sh && chmod +x /app/start.sh
 
 # Ports
-EXPOSE 4000
+EXPOSE 4100
 EXPOSE 3000
 
 # Gesundheitscheck mit längerer Wartezeit
