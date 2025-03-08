@@ -24,7 +24,7 @@ services:
     pa11y-dashboard:
     build: .
     ports:
-      - "0.0.0.0:4100:4100"
+      - "4100:4100"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pa11y.rule=Host(`pa11y-dashboard.inet-solutions.at`)"
