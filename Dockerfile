@@ -12,8 +12,8 @@ COPY . .
 # Pa11y Webservice installieren
 RUN npm install pa11y-webservice
 
-# Netcat (nc) installieren, um MongoDB-Verfügbarkeit zu prüfen
-RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+# Netcat (nc) installieren
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 
 # Warte-Skript für MongoDB erstellen
 RUN echo '#!/bin/bash\n\
