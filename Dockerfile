@@ -28,7 +28,7 @@ RUN mkdir -p config && echo '{\
     "readonly": false,\
     "siteMessage": "",\
     "webservice": {\
-        "database": "mongodb://pa11y-pa11y-mongodb:27017/pa11y-webservice",\
+        "database": "mongodb://Default mongo:PAmongodb11Y@pa11y-pa11y-mongodb:27017/pa11y-webservice",\
         "host": "localhost",\
         "port": 3000,\
         "cron": "0 30 0 * * *"\
@@ -53,7 +53,7 @@ NODE_ENV=production node index.js\n\
 # Setze Environment-Variablen
 ENV NODE_ENV=production
 ENV PORT=4000
-ENV PA11Y_WEBSERVICE_DATABASE=mongodb://pa11y-pa11y-mongodb:27017/pa11y-webservice
+ENV PA11Y_WEBSERVICE_DATABASE=mongodb://Default mongo:PAmongodb11Y@pa11y-pa11y-mongodb:27017/pa11y-webservice
 
 # Expose Port für Pa11y Dashboard
 EXPOSE 4000
