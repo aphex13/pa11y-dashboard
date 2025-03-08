@@ -1,35 +1,35 @@
-# Basis-Image mit Node.js 16
-FROM node:16
+# Basis-Image mit Node.js 18 (anstatt 16)
+FROM node:18
 
-# Installiere notwendige Pakete für MongoDB
+# MongoDB installieren
 RUN apt-get update && apt-get install -y gnupg wget
 
-# Füge den MongoDB GPG-Schlüssel hinzu
+# MongoDB GPG-Schlüssel hinzufügen
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
 
-# Füge das offizielle MongoDB-Repository hinzu
+# MongoDB-Repository hinzufügen
 RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
-# Aktualisiere die Paketliste und installiere MongoDB
+# Paketliste aktualisieren und MongoDB installieren
 RUN apt-get update && apt-get install -y mongodb-org
 
 # Erstelle das MongoDB-Datenverzeichnis
 RUN mkdir -p /data/db
 
-# Setze das Arbeitsverzeichnis
+# Arbeitsverzeichnis setzen
 WORKDIR /app
 
-# Kopiere die Dateien und installiere Abhängigkeiten
+# Abhängigkeiten installieren
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Kopiere den restlichen Code
+# Kopiere restlichen Code
 COPY . .
 
-# Standardport für das Dashboard setzen
+# Standardport für das Dashboard
 ENV PORT=4000
 ENV MONGO_URL=mongodb://localhost:27017/pa11y
 EXPOSE 4000
 
-# Starte MongoDB und die Anwendung
+# MongoDB & Node.js starten
 CMD mongod --fork --logpath /var/log/mongodb.log && npm start
