@@ -72,7 +72,7 @@ EXPOSE 3100
 
 # Gesundheitscheck mit längerer Wartezeit
 HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=5 \
-  CMD curl -f http://localhost:4000/ || exit 1
+  CMD curl -f http://localhost:4100/ || exit 1
 
 # Starten
 CMD ["/app/start.sh"]
