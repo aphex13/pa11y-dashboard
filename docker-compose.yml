@@ -20,13 +20,13 @@ services:
   pa11y-dashboard:
     build: .
     ports:
-      - "4000:4000"
+      - "4100:4100"
     depends_on:
       mongodb:
         condition: service_healthy
     environment:
       - NODE_ENV=production
-      - PORT=4000
+      - PORT=4100
     networks:
       - pa11y-network
     restart: always
