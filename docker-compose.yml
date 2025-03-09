@@ -1,50 +1,19 @@
 version: '3'
-
 services:
-  mongodb:
-    image: mongo:6.0
-    volumes:
-      - mongodb_data:/data/db
+  web:
+    depends_on:
+      - mongo
+    build: .
+    ports:
+      - 4100:4100
+    container_name: pa11y-dashboard
+    links:
+      - database:mongodb
+  mongo:
+    image: mongo:4.4
     ports:
       - "27017:27017"
-    networks:
-      - pa11y-network
-    restart: always
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
-
-  pa11y-dashboard:
-    build: .
-    ports:
-      - "4100:4100"
-    pa11y-dashboard:
-    build: .
-    ports:
-      - "4100:4100"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pa11y.rule=Host(`pa11y-dashboard.inet-solutions.at`)"
-      - "traefik.http.services.pa11y.loadbalancer.server.port=4100"
-      - "traefik.http.routers.pa11y.entrypoints=websecure"
-      - "traefik.http.routers.pa11y.tls.certresolver=myresolver"
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    environment:
-      - NODE_ENV=production
-      - PORT=4100
-    networks:
-      - pa11y-network
-        external: ture
-    restart: always
-
-networks:
-  pa11y-network:
-    driver: bridge
-
+    volumes:
+      - mongodb:/data/db
 volumes:
-  mongodb_data:
+  mongodb:
