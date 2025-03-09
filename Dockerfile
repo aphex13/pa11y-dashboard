@@ -6,4 +6,4 @@ RUN git clone https://github.com/pa11y/dashboard.git && cd dashboard && npm i
 ENV NODE_ENV ${NODE_ENV:-production}
 COPY production.json /dashboard/config/production.json
 WORKDIR /dashboard
-CMD PORT=4000 node index.js
+CMD PORT=4100 node index.js
