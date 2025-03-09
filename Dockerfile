@@ -7,3 +7,4 @@ ENV NODE_ENV ${NODE_ENV:-production}
 COPY production.json /dashboard/config/production.json
 WORKDIR /dashboard
 CMD PORT=4100 node index.js
+
